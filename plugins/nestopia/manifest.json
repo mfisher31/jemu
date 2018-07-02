@@ -1,0 +1,17 @@
+{
+    "author" : {
+        "name": "Michael Fisher",
+        "email": "mfisher31@gmail.com"
+    },
+    "license": "GPLv3",
+    "cores": [
+        {
+            "name": "Nestopia",
+            "identifier": "nestopia",
+            "version": "1.42.0"
+        },
+        {
+
+        }
+    ]
+}

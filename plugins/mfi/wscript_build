@@ -1,0 +1,43 @@
+#!/usr/bin/env python
+
+''' This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.'''
+
+import os, sys
+sys.path.append (os.getcwd() + "/tools/waf")
+import cross, juce
+
+# nestopia
+name = 'mfi'
+bundle = '%s.jemu' % name
+path = '../../dist/lib/jemu'
+
+mfi = bld.shlib (
+    features    = 'c cshlib',
+    source      = [ 'mfi.m' ],
+    includes    = [ '../../libs/libjemu' ],
+    target      = '%s/%s/%s' % (path, bundle, name),
+    name        = name,
+    env         = bld.env.derive(),
+    use         = [ 'FOUNDATION', 'GAME_CONTROLLER' ]
+)
+
+mfi.env.cxxshlib_PATTERN = mfi.env.cshlib_PATTERN = juce.plugin_pattern (bld)
+mfi.env.LINKFLAGS = []
+
+manifest = bld (
+    features     = 'subst',
+    source       = 'manifest.json',
+    target       = '%s/%s/manifest.json' % (path, bundle)
+)

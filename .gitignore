@@ -1,0 +1,14 @@
+
+build/
+.waf*/
+.lock-waf*
+
+*.pyc
+
+.vscode/settings.json
+
+jucer/Builds/
+jucer/JuceLibraryCode/modules
+jucer/JuceLibraryCode/*.mm
+jucer/JuceLibraryCode/*.cpp
+jucer/JuceLibraryCode/*.txt

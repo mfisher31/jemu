@@ -1,0 +1,36 @@
+import os, sys
+sys.path.append (os.getcwd() + "/tools/waf")
+import juce
+
+# nestopia
+name = 'nestopia'
+bundle = '%s.jemu' % name
+path = '../../dist/lib/jemu'
+
+nstEnv = bld.env.derive()
+nstEnv.cxxshlib_PATTERN = nstEnv.cshlib_PATTERN = juce.plugin_pattern (bld)
+
+nestopia = bld.shlib (
+    source      = bld.path.ant_glob ('**/*.cpp'),
+    includes    = [ '../../libs/libjemu',
+                    '../../jucer/JuceLibraryCode',
+                    '../../jucer/JuceLibraryCode/modules',
+                    '../../src', 'core' ],
+    target      = '%s/%s/%s' % (path, bundle, name),
+    name        = name,
+    env         = nstEnv,
+    use         = [ 'JEMU', 'JUCE' ],
+    linkflags   = '-lz'
+)
+
+manifest = bld (
+    features     = 'subst',
+    source       = 'manifest.json',
+    target       = '%s/%s/manifest.json' % (path, bundle)
+)
+
+database = bld (
+    features     = 'subst',
+    source       = 'core/database/NstDatabase.xml',
+    target       = '%s/%s/database.xml' % (path, bundle)
+)

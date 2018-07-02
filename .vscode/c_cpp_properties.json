@@ -1,0 +1,38 @@
+{
+    "configurations": [
+        {
+            "name": "Mac",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/src",
+                    "${workspaceFolder}/libs/libjemu",
+                    "${workspaceFolder}/jucer/JuceLibraryCode",
+                    "${workspaceFolder}/jucer/JuceLibraryCode/modules",
+                    "${workspaceFolder}/jucer/Source",
+                    "${workspaceFolder}/plugins/nestopia",
+                    "${workspaceFolder}/plugins/nestopia/core"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "includePath": [
+                "${workspaceFolder}/src",
+                "${workspaceFolder}/libs/libjemu",
+                "${workspaceFolder}/jucer/JuceLibraryCode",
+                "${workspaceFolder}/jucer/JuceLibraryCode/modules",
+                "${workspaceFolder}/jucer/Source",
+                "${workspaceFolder}/plugins/nestopia",
+                "${workspaceFolder}/plugins/nestopia/core"
+            ],
+            "defines": [],
+            "macFrameworkPath": [
+                "/System/Library/Frameworks",
+                "/Library/Frameworks"
+            ],
+            "compilerPath": "/usr/bin/clang",
+            "cStandard": "c11",
+            "cppStandard": "c++14",
+            "intelliSenseMode": "clang-x64"
+        }
+    ],
+    "version": 4
+}
