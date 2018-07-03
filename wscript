@@ -61,27 +61,30 @@ def configure (conf):
     juce.display_msg (conf, "CXXFLAGS", conf.env.CXXFLAGS)
     juce.display_msg (conf, "LINKFLAGS", conf.env.LINKFLAGS)
 
-def build_linux_desktop (bld, slug):
+    print (conf.env)
+
+def build_linux_desktop (bld):
     if not juce.is_linux():
         return
 
-    src = "data/%s.desktop.in" % (slug)
+    slug = 'jemu'
+    src = "tools/linuxdeploy/%s.desktop.in" % (slug)
     tgt = "%s.desktop" % (slug)
 
     jemu_data = '%s/jemu' % (bld.env.DATADIR)
     jemu_bin  = '%s/bin' % (bld.env.PREFIX)
 
     if os.path.exists (src):
-        bld (features = "subst",
-             source    = src,
-             target    = tgt,
-             name      = tgt,
-             ELEMENT_BINDIR = jemu_bin,
-             ELEMENT_DATA = jemu_data,
+        bld (features     = "subst",
+             source       = src,
+             target       = tgt,
+             name         = tgt,
+             JEMU_BINDIR  = jemu_bin,
+             JEMU_DATA    = jemu_data,
              install_path = bld.env.DATADIR + "/applications"
         )
 
-        bld.install_files (jemu_data, 'src/res/icon.xpm')
+        # bld.install_files (jemu_data, 'src/res/icon.xpm')
 
 def build_juce (bld):
     extension = juce.extension()
@@ -96,7 +99,10 @@ def build_juce (bld):
         vnum        = '5.3.2'
     )
 
-    if juce.is_mac():
+    if juce.is_linux():
+        libjuce.use = 'ALSA FREETYPE2 X11'
+    
+    elif juce.is_mac():
         libjuce.install_path = None
         libjuce.linkflags = ['-install_name', '@rpath/libjuce.dylib',
                              '-Wl,-compatibility_version,5.0.0', '-Wl,-current_version,5.3.2']
@@ -130,7 +136,17 @@ def build_mingw (bld):
     bld.add_post_fun (copy_mingw_libs)
 
 def build_linux (bld):
-    return
+    app = bld.program (
+        source = bld.path.ant_glob ('src/**/*.cpp') + bld.path.ant_glob ('src/**/*.mm'),
+        includes = jemu.juce_includes('jucer') + [ 'libs/libjemu', 'src' ],
+        env = bld.env.derive(),
+        target = 'dist/bin/jemu',
+        name = 'jemuApp',
+        use = [ 'JUCE', 'JEMU', 'X11', 'ALSA', 'GL' ],
+    )
+
+    build_linux_desktop (bld)
+    return app
 
 def copy_mac_libs (ctx):
     app_binary = 'build/Emulator.app/Contents/MacOS/Emulator'
@@ -182,9 +198,6 @@ def build (bld):
         return build_mac (bld)
     else:
         build_linux (bld)
-
-    for subdir in 'tests'.split():
-        bld.recurse (subdir)
 
 def check (ctx):
     call (["build/tests/tests"])

@@ -1,0 +1,1 @@
+apt-get install libasound2-dev libx11-dev libxrandr-dev libxext-dev libxrender-dev libxinerama-dev x11proto-xinerama-dev libxcursor-dev mesa-common-dev libfreetype6-dev libgl1-mesa-dev

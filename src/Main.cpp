@@ -34,7 +34,8 @@ static String getPluginBundlePath (const String& name)
    #else
     return File::getSpecialLocation(File::invokedExecutableFile)
         .getParentDirectory().getChildFile("plugins").getChildFile(name)
-        .withFileExtension("emu");
+        .withFileExtension("emu")
+        .getFullPathName();
    #endif
 }
 

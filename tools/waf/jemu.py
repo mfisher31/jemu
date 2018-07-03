@@ -44,7 +44,12 @@ def check_mac (self):
 
 @conf
 def check_linux (self):
-    return
+    self.check_cfg(package='alsa', args='--cflags --libs', mandatory=True)
+    self.check_cfg(package='x11', args='--cflags --libs', mandatory=True)
+    self.check_cfg(package='xinerama', args='--cflags --libs', mandatory=False)
+    self.check_cfg(package='freetype2', args='--cflags --libs', mandatory=True)
+    self.check_cfg(package='gl', args='--cflags --libs', mandatory=True)
+    self.define('JUCE_WEB_BROWSER', 0)
 
 def get_mingw_libs():
     return [ l.upper() for l in mingw_libs.split() ]

@@ -21,6 +21,7 @@
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <string.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -175,6 +176,7 @@ typedef const JemuDescriptor* (*JemuDescriptorFunction)(const uint32_t);
 
 #include <cstdlib>
 #include <map>
+#include <memory>
 #include <string>
 #include <vector>
 

@@ -20,17 +20,20 @@ nestopia = bld.shlib (
     name        = name,
     env         = nstEnv,
     use         = [ 'JEMU', 'JUCE' ],
-    linkflags   = '-lz'
+    linkflags   = '-lz',
+    install_path = '%s/%s' % (nstEnv.PLUGINDIR, bundle)
 )
 
 manifest = bld (
     features     = 'subst',
     source       = 'manifest.json',
-    target       = '%s/%s/manifest.json' % (path, bundle)
+    target       = '%s/%s/manifest.json' % (path, bundle),
+    install_path = '%s/%s' % (nstEnv.PLUGINDIR, bundle)
 )
 
 database = bld (
     features     = 'subst',
     source       = 'core/database/NstDatabase.xml',
-    target       = '%s/%s/database.xml' % (path, bundle)
+    target       = '%s/%s/database.xml' % (path, bundle),
+    install_path = '%s/%s' % (nstEnv.PLUGINDIR, bundle)
 )

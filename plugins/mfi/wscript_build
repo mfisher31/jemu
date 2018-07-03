@@ -18,26 +18,26 @@ import os, sys
 sys.path.append (os.getcwd() + "/tools/waf")
 import cross, juce
 
-# nestopia
-name = 'mfi'
-bundle = '%s.jemu' % name
-path = '../../dist/lib/jemu'
+if juce.is_mac():
+    name = 'mfi'
+    bundle = '%s.jemu' % name
+    path = '../../dist/lib/jemu'
 
-mfi = bld.shlib (
-    features    = 'c cshlib',
-    source      = [ 'mfi.m' ],
-    includes    = [ '../../libs/libjemu' ],
-    target      = '%s/%s/%s' % (path, bundle, name),
-    name        = name,
-    env         = bld.env.derive(),
-    use         = [ 'FOUNDATION', 'GAME_CONTROLLER' ]
-)
+    mfi = bld.shlib (
+        features    = 'c cshlib',
+        source      = [ 'mfi.m' ],
+        includes    = [ '../../libs/libjemu' ],
+        target      = '%s/%s/%s' % (path, bundle, name),
+        name        = name,
+        env         = bld.env.derive(),
+        use         = [ 'FOUNDATION', 'GAME_CONTROLLER' ]
+    )
 
-mfi.env.cxxshlib_PATTERN = mfi.env.cshlib_PATTERN = juce.plugin_pattern (bld)
-mfi.env.LINKFLAGS = []
+    mfi.env.cxxshlib_PATTERN = mfi.env.cshlib_PATTERN = juce.plugin_pattern (bld)
+    mfi.env.LINKFLAGS = []
 
-manifest = bld (
-    features     = 'subst',
-    source       = 'manifest.json',
-    target       = '%s/%s/manifest.json' % (path, bundle)
-)
+    manifest = bld (
+        features     = 'subst',
+        source       = 'manifest.json',
+        target       = '%s/%s/manifest.json' % (path, bundle)
+    )
